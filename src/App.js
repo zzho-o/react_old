@@ -8,6 +8,9 @@ function App() {
   const [title,setTitle] = useState(['남자 코트 추천', '우동 맛집','부산 여행 코스']);
   const [num, setNum] = useState([0,0,0]);
   const [modal,setModal] =useState(false);
+  const [idx,setIdx] = useState(0);
+
+  const [input, setInput] = useState('');
 
   function eter_UI(){
     var array = [];
@@ -46,20 +49,27 @@ function App() {
       <button onClick={change_title}>Swapping</button>
       {eter_UI()}
       {
-        title.map(function(i){
+        title.map(function(tt,i){
           return (
-          <div className="list">
-            <h3>{i} <span onClick={_click_like}>👍🏻</span> {num[0]}  </h3>
+          <div className="list" key={i}>
+            <h3 onClick={()=>{ setIdx(i) }} >{tt} <span onClick={_click_like}>👍🏻</span> {num[0]}  </h3>
             <p>2월 17일 발행</p>
             <hr/>
           </div>
           )
         })
       }
+      {input}
+      <input onChange={(e) => {setInput(e.target.value)}}/>
+      <div />
+      <button onClick={()=>{ setIdx(0) }}>버튼1</button>
+      <button onClick={()=>{ setIdx(1) }}>버튼2</button>
+      <button onClick={()=>{ setIdx(2) }}>버튼3</button>
+      
       <button onClick={_click_button}>Button!</button>
       {
-        modal ? <Modal title={title} /> : null
-      }      
+        modal ? <Modal title={title} idx = {idx}/> : null
+      }     
       
 
     </div>
@@ -69,7 +79,7 @@ function App() {
 function Modal(props){
   return (
     <div className="modal">
-        <h2>제목 { props.title[0] }</h2>
+        <h2>제목 { props.title[props.idx] }</h2>
         <p>날짜</p>
         <p>상세내용</p>
       </div>
